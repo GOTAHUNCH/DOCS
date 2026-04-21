@@ -1,0 +1,129 @@
+---
+title: "Smart Contracts"
+description: "On-chain infrastructure powering Hunch"
+---
+
+# Smart Contracts
+
+The protocol consists of two smart contracts deployed on Base, with mainnet deployment planned post-audit.
+
+## Contract Overview
+
+| Contract | Function |
+|----------|----------|
+| **HunchToken** | ERC-20 token ($HUNCH) - betting currency, rewards, governance |
+| **HunchManager** | Betting pools, odds tracking, payout settlement |
+
+## HunchToken
+
+Standard ERC-20 token with additional capabilities for the prediction market ecosystem.
+
+### Features
+
+<CardGroup cols={2}>
+  <Card title="Mintable" icon="plus">
+    Authorized addresses can mint for rewards and signup bonuses
+  </Card>
+  <Card title="Burnable" icon="fire">
+    Potential deflationary mechanics
+  </Card>
+  <Card title="Operator Pattern" icon="user-gear">
+    Gasless transfers during betting
+  </Card>
+  <Card title="Role-Based Access" icon="lock">
+    Separate permissions for different operations
+  </Card>
+</CardGroup>
+
+### Key Functions
+
+```solidity
+// Mint tokens to an address (owner/minter only)
+function mint(address to, uint256 amount) external;
+
+// Standard ERC-20 balance check
+function balanceOf(address account) external view returns (uint256);
+
+// Standard ERC-20 transfer
+function transfer(address to, uint256 amount) external returns (bool);
+```
+
+## HunchManager
+
+Core betting logic and market settlement contract.
+
+### Key Functions
+
+```solidity
+// Place a bet on a market
+function placeBet(
+    bytes32 marketId,    // Polymarket condition ID (hashed)
+    bool isYes,          // true for YES, false for NO
+    uint256 amount,      // Bet amount in wei
+    uint256 odds         // Current odds at time of bet
+) external;
+
+// Settle a market with final outcome (settler only)
+function resolveMarket(bytes32 marketId, bool outcome) external;
+
+// Process payout for a single bet
+function settleBet(uint256 betId) external;
+
+// Preview potential payout
+function calculatePayout(uint256 amount, uint256 odds) 
+    external view returns (uint256);
+```
+
+### Payout Calculation
+
+The share-based payout model:
+
+```
+User bets $10 on YES at 65% odds:
+
+Shares purchased: 10 / 0.65 = 15.38 shares
+If YES wins: Payout = 15.38 tokens
+Platform fee (1.5%): 0.23 tokens
+Net payout: 15.15 tokens
+Profit: 5.15 tokens
+
+If NO wins: User loses $10 bet
+```
+
+## Security Design
+
+<CardGroup cols={2}>
+  <Card title="OpenZeppelin" icon="shield-check">
+    Battle-tested, audited base contracts
+  </Card>
+  <Card title="Role-Based Access" icon="users-gear">
+    Separate permissions for minting, settling, operations
+  </Card>
+  <Card title="Non-Custodial" icon="key">
+    Users maintain control via smart accounts
+  </Card>
+  <Card title="Reentrancy Guards" icon="lock">
+    Protection on all state-changing functions
+  </Card>
+  <Card title="Fee Caps" icon="percent">
+    Platform fee hard-capped at 10% maximum
+  </Card>
+  <Card title="Upgradeable" icon="arrows-rotate">
+    Proxy pattern allows bug fixes without migration
+  </Card>
+</CardGroup>
+
+## Deployment Status
+
+<Note>
+Contracts are deployed on **Base Sepolia testnet** and verified on BaseScan for inspection.
+</Note>
+
+### Mainnet Roadmap
+
+| Timeline | Milestone |
+|----------|-----------|
+| Q2 2026 | Complete internal security review |
+| Q2 2026 | Third-party audit (targeting Trail of Bits or OpenZeppelin) |
+| Q3 2026 | Mainnet deployment with limited beta |
+| Q3 2026 | Full public launch |

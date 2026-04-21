@@ -1,0 +1,91 @@
+---
+title: "User Experience"
+description: "How Hunch makes blockchain invisible"
+---
+
+# User Experience Innovation
+
+The core technical innovation is making blockchain invisible to users. A mainstream user experiences Hunch as a simple mobile app, unaware of the underlying infrastructure.
+
+## Onboarding Flow
+
+| Step | User Action | What Happens Behind the Scenes |
+|------|-------------|-------------------------------|
+| 1 | Tap "Sign in with Twitter" | Privy authenticates via OAuth |
+| 2 | (Automatic) | Privy creates embedded wallet |
+| 3 | (Automatic) | ZeroDev deploys smart account |
+| 4 | (Automatic) | Backend mints 1,000 $HUNCH to account |
+| 5 | Tap "Enable Quick Bets" | Creates session key (one-time approval) |
+| 6 | Start swiping on markets | All bets execute via session key (no popups) |
+
+<Info>
+**Total time from app open to first bet: Under 30 seconds.**
+</Info>
+
+## Gasless Transactions
+
+Users never pay gas fees. The platform sponsors all transactions via ZeroDev's paymaster infrastructure.
+
+| Perspective | Reality |
+|-------------|---------|
+| **User Experience** | Tap to bet, instant confirmation |
+| **Technical Reality** | Platform pays ~$0.001 per transaction on Base |
+| **Economics** | Easily covered by 1.5% platform spread |
+
+## Session Keys
+
+The key innovation enabling frictionless betting:
+
+<Steps>
+  <Step title="One-Time Approval">
+    User approves once with a single signature on first use
+  </Step>
+  <Step title="Scoped Permissions">
+    Session key can only call betting functions
+  </Step>
+  <Step title="Time-Limited">
+    Expires after 7 days for security
+  </Step>
+  <Step title="Zero Interaction">
+    Every subsequent bet requires no user interaction
+  </Step>
+</Steps>
+
+This achieves the "swipe to bet" experience that makes Hunch feel like a social app rather than a financial platform.
+
+## Wallet Architecture
+
+Users have two addresses (invisible to them):
+
+| Wallet Type | Purpose | Created By |
+|-------------|---------|------------|
+| **Embedded Wallet** | Signer / authenticator | Privy |
+| **Smart Account** | Holds funds, executes bets | ZeroDev |
+
+<Warning>
+Always send tokens to the **Smart Account Address**, not the embedded wallet.
+</Warning>
+
+## Login Persistence
+
+Session key state persists across logouts:
+
+```
+1. User logs in
+2. Backend checks: GET /api/users/:userId/session-key
+3. If approved and not expired:
+   → Restore session key from stored address
+   → User can bet immediately
+4. If not approved or expired:
+   → Show one-time approval modal
+   → Save new session key state
+```
+
+## Comparison
+
+| Action | Traditional Crypto | Hunch |
+|--------|-------------------|-------|
+| Create account | Install wallet extension, write seed phrase | Tap "Sign in with Twitter" |
+| Fund account | Buy crypto on exchange, transfer to wallet | Automatic 1,000 $HUNCH on signup |
+| Make transaction | Approve popup, pay gas, wait | Swipe and done |
+| Session management | Connect wallet each time | Automatic via session keys |
