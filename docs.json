@@ -10,11 +10,7 @@
   "colors": {
     "primary": "#1E5A8C",
     "light": "#4A90D9",
-    "dark": "#0F2942",
-    "anchors": {
-      "from": "#1E5A8C",
-      "to": "#4A90D9"
-    }
+    "dark": "#0F2942"
   },
   "topbarLinks": [
     {
@@ -26,69 +22,58 @@
     "name": "Launch App",
     "url": "https://prototype.gotahunch.net"
   },
-  "tabs": [
-    {
-      "name": "Whitepaper",
-      "url": "whitepaper"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Twitter",
-      "icon": "twitter",
-      "url": "https://twitter.com/GotAHunch"
-    },
-    {
-      "name": "GitHub",
-      "icon": "github",
-      "url": "https://github.com/GOTAHUNCH"
-    }
-  ],
-  "navigation": [
-    {
-      "group": "Introduction",
-      "pages": [
-        "whitepaper/introduction",
-        "whitepaper/executive-summary"
-      ]
-    },
-    {
-      "group": "Market & Product",
-      "pages": [
-        "whitepaper/market-opportunity",
-        "whitepaper/product-vision"
-      ]
-    },
-    {
-      "group": "Technology",
-      "pages": [
-        "whitepaper/architecture",
-        "whitepaper/smart-contracts",
-        "whitepaper/user-experience"
-      ]
-    },
-    {
-      "group": "Token & Business",
-      "pages": [
-        "whitepaper/tokenomics",
-        "whitepaper/business-model"
-      ]
-    },
-    {
-      "group": "Strategy",
-      "pages": [
-        "whitepaper/go-to-market",
-        "whitepaper/roadmap"
-      ]
-    },
-    {
-      "group": "Investment",
-      "pages": [
-        "whitepaper/team-governance",
-        "whitepaper/investment"
-      ]
-    }
-  ],
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Whitepaper",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": [
+              "whitepaper/introduction",
+              "whitepaper/executive-summary"
+            ]
+          },
+          {
+            "group": "Market & Product",
+            "pages": [
+              "whitepaper/market-opportunity",
+              "whitepaper/product-vision"
+            ]
+          },
+          {
+            "group": "Technology",
+            "pages": [
+              "whitepaper/architecture",
+              "whitepaper/smart-contracts",
+              "whitepaper/user-experience"
+            ]
+          },
+          {
+            "group": "Token & Business",
+            "pages": [
+              "whitepaper/tokenomics",
+              "whitepaper/business-model"
+            ]
+          },
+          {
+            "group": "Strategy",
+            "pages": [
+              "whitepaper/go-to-market",
+              "whitepaper/roadmap"
+            ]
+          },
+          {
+            "group": "Investment",
+            "pages": [
+              "whitepaper/team-governance",
+              "whitepaper/investment"
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "footerSocials": {
     "twitter": "https://twitter.com/GotAHunch",
     "github": "https://github.com/GOTAHUNCH"
