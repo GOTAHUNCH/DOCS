@@ -2,10 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "name": "Hunch",
   "theme": "luma",
-  "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
-  },
+  "logo": "/logo/logo.svg",
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#1E5A8C",
