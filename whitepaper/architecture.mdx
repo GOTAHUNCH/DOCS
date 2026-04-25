@@ -10,10 +10,10 @@ Hunch employs a hybrid architecture that combines blockchain's trust guarantees 
 ## System Components
 
 | Layer | Technology | Purpose |
-|-------|------------|---------|
+| --- | --- | --- |
 | Blockchain | Base (Coinbase L2) | Settlement, token transfers, bet execution |
 | Smart Contracts | Solidity / EVM | Token logic, betting pools, payouts |
-| Wallets | Privy + ZeroDev | Authentication, smart accounts, session keys |
+| Wallets | Privy \+ ZeroDev | Authentication, smart accounts, session keys |
 | Backend | Node.js on Railway | API, market sync, settlement automation |
 | Database | Supabase (PostgreSQL) | User data, market cache, analytics |
 | Frontend | React Native | iOS, Android, and web from single codebase |
@@ -27,29 +27,35 @@ Hunch employs a hybrid architecture that combines blockchain's trust guarantees 
   <Card title="Sub-cent Fees" icon="coins">
     Transaction fees enable micro-bets
   </Card>
+
   <Card title="2-Second Finality" icon="clock">
     Responsive user experience
   </Card>
+
   <Card title="Coinbase Ecosystem" icon="building">
     Credibility and on-ramp integration
   </Card>
+
   <Card title="EVM Compatible" icon="code">
     Proven Solidity patterns
   </Card>
 </CardGroup>
 
-### Privy + ZeroDev
+### Privy \+ ZeroDev
 
 <CardGroup cols={2}>
   <Card title="Privy" icon="shield">
-    Industry-leading auth with 10M+ users across clients
+    Industry-leading auth with 10M\+ users across clients
   </Card>
+
   <Card title="ZeroDev" icon="key">
     Best-in-class ERC-4337 implementation
   </Card>
+
   <Card title="Combined" icon="link">
     Social login → Smart account in one flow
   </Card>
+
   <Card title="Session Keys" icon="bolt">
     Eliminate transaction popups entirely
   </Card>
@@ -62,49 +68,21 @@ Hunch employs a hybrid architecture that combines blockchain's trust guarantees 
 - Large talent pool and ecosystem
 - Proven at scale (Instagram, Coinbase, Discord)
 
-## Data Flow
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        FRONTEND                                  │
-│                                                                  │
-│  1. User logs in via Privy                                      │
-│  2. ZeroDev creates smart account                               │
-│  3. User approves session key (one-time)                        │
-│  4. User swipes YES on a market                                 │
-│  5. Frontend calls HunchManager.placeBet()                      │
-│  6. Session key signs (no popup)                                │
-│  7. Frontend calls POST /api/bets to record                     │
-└─────────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────────┐
-│                        BACKEND                                   │
-│                                                                  │
-│  - Records bet in Supabase                                      │
-│  - Every 15 min: checks Polymarket for resolved markets         │
-│  - When resolved: calls HunchManager.settleBet()                │
-│  - Updates bet status in database                               │
-└─────────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────────┐
-│                     SMART CONTRACTS                              │
-│                                                                  │
-│  HunchToken: Holds user balances                                │
-│  HunchManager: Holds betting pools, pays winners                │
-└─────────────────────────────────────────────────────────────────┘
-```
+<Frame>
+  ![Data Flow2](/images/DataFlow2.png)
+</Frame>
 
 ## Scalability
 
 The architecture is designed to scale to millions of users:
 
 | Component | Capability |
-|-----------|------------|
+| --- | --- |
 | Horizontal Scaling | Stateless API servers behind load balancer |
-| Database | Supabase handles 10,000+ concurrent connections |
-| Blockchain | Base processes 1M+ daily transactions |
+| Database | Supabase handles 10,000\+ concurrent connections |
+| Blockchain | Base processes 1M\+ daily transactions |
 | Caching | Redis layer planned for high-frequency data |
 
 <Info>
-Current infrastructure supports ~100K monthly active users. Scale upgrades are straightforward and budgeted in growth plans.
+  Current infrastructure supports ~100K monthly active users. Scale upgrades are straightforward and budgeted in growth plans.
 </Info>
