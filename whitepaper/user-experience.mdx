@@ -5,87 +5,92 @@ description: "How Hunch makes blockchain invisible"
 
 # User Experience Innovation
 
-The core technical innovation is making blockchain invisible to users. A mainstream user experiences Hunch as a simple mobile app, unaware of the underlying infrastructure.
+The core technical innovation is making blockchain invisible to users. A mainstream user experiences Hunch as a simple mobile app, unaware that each swipe is a real order on a prediction-market venue.
 
 ## Onboarding Flow
 
 | Step | User Action | What Happens Behind the Scenes |
 |------|-------------|-------------------------------|
-| 1 | Tap "Sign in with Twitter" | Privy authenticates via OAuth |
-| 2 | (Automatic) | Privy creates embedded wallet |
-| 3 | (Automatic) | ZeroDev deploys smart account |
-| 4 | (Automatic) | Backend mints 1,000 $HUNCH to account |
-| 5 | Tap "Enable Quick Bets" | Creates session key (one-time approval) |
-| 6 | Start swiping on markets | All bets execute via session key (no popups) |
+| 1 | Tap "Sign in with X" (or email, Apple, Google) | Privy authenticates via OAuth |
+| 2 | (Automatic) | Privy creates an embedded wallet — the user's key |
+| 3 | (Automatic) | Hunch deploys the user's Polymarket Deposit Wallet through the relayer, gaslessly |
+| 4 | (Automatic) | Trading approvals and a trade-only session key are set up with silent signatures |
+| 5 | Fund the account | User sends USDC from any major chain; it arrives as pUSD, ready to trade |
+| 6 | Start swiping | Every trade executes via the session key — no popups, ever |
 
 <Info>
-**Total time from app open to first bet: Under 30 seconds.**
+**Total time from app open to first swipe: under 30 seconds, plus however long the deposit takes to arrive.**
 </Info>
+
+## Funding
+
+Users never need to hold Polygon tokens or know what pUSD is.
+
+| Method | Status | How it feels |
+|--------|--------|--------------|
+| Deposit from any chain | Live at launch | Send USDC from Ethereum, Base, Arbitrum, Solana and others to a personal deposit address; it arrives as trading balance |
+| Card and local payments | Planned | Apple Pay / Google Pay, UPI, GCash, M-Pesa and similar, converting straight into trading balance |
+
+<Warning>
+There is no free starting balance. Users trade with real money at real market prices — and win real money.
+</Warning>
 
 ## Gasless Transactions
 
-Users never pay gas fees. The platform sponsors all transactions via ZeroDev's paymaster infrastructure.
+Users never pay gas fees. Polymarket's relayer sponsors wallet deployment, approvals, trades and redemptions.
 
 | Perspective | Reality |
 |-------------|---------|
-| **User Experience** | Tap to bet, instant confirmation |
-| **Technical Reality** | Platform pays ~$0.001 per transaction on Base |
-| **Economics** | Easily covered by 1.5% platform spread |
+| **User Experience** | Swipe, instant confirmation |
+| **Technical Reality** | Order matched and settled on Polygon; gas paid by the venue |
+| **Economics** | Hunch's 1% builder fee carries no gas cost |
 
 ## Session Keys
 
-The key innovation enabling frictionless betting:
+The key innovation enabling frictionless trading. Polymarket Deposit Wallets support **session keys**: a second key the account owner authorises to trade on their behalf.
 
 <Steps>
-  <Step title="One-Time Approval">
-    User approves once with a single signature on first use
+  <Step title="One-Time Authorisation">
+    Signed once by the user's embedded wallet during onboarding — silently, no modal
   </Step>
-  <Step title="Scoped Permissions">
-    Session key can only call betting functions
+  <Step title="Trade-Only">
+    A session key can place and cancel orders. It can never withdraw or transfer funds
   </Step>
   <Step title="Time-Limited">
-    Expires after 7 days for security
+    Valid for 180 days, then re-authorised with another silent signature
+  </Step>
+  <Step title="Revocable">
+    The user can revoke it at any time; open orders are cancelled automatically
   </Step>
   <Step title="Zero Interaction">
-    Every subsequent bet requires no user interaction
+    Every subsequent swipe is a single request to Hunch. Nothing to sign on the phone
   </Step>
 </Steps>
 
-This achieves the "swipe to bet" experience that makes Hunch feel like a social app rather than a financial platform.
+This achieves the "swipe to predict" experience that makes Hunch feel like a social app rather than a financial platform — with a hard guarantee underneath: the only key that can move money out is the user's own.
 
 ## Wallet Architecture
 
 Users have two addresses (invisible to them):
 
-| Wallet Type | Purpose | Created By |
-|-------------|---------|------------|
-| **Embedded Wallet** | Signer / authenticator | Privy |
-| **Smart Account** | Holds funds, executes bets | ZeroDev |
+| Wallet | Purpose | Created By |
+|--------|---------|------------|
+| **Embedded Wallet** | Owner key: authorises the account, signs withdrawals | Privy |
+| **Deposit Wallet** | Holds trading balance and positions; executes trades | Polymarket (deployed by Hunch) |
 
 <Warning>
-Always send tokens to the **Smart Account Address**, not the embedded wallet.
+Always send funds to the **deposit address** shown in the app, not the embedded wallet.
 </Warning>
 
-## Login Persistence
+## Withdrawals
 
-Session key state persists across logouts:
-
-```
-1. User logs in
-2. Backend checks: GET /api/users/:userId/session-key
-3. If approved and not expired:
-   → Restore session key from stored address
-   → User can bet immediately
-4. If not approved or expired:
-   → Show one-time approval modal
-   → Save new session key state
-```
+Withdrawals are the one action that always uses the user's own embedded wallet. The app signs them silently when the user asks; Hunch cannot initiate one. Funds can be sent to any address on Polygon or bridged out.
 
 ## Comparison
 
-| Action | Traditional Crypto | Hunch |
-|--------|-------------------|-------|
-| Create account | Install wallet extension, write seed phrase | Tap "Sign in with Twitter" |
-| Fund account | Buy crypto on exchange, transfer to wallet | Automatic 1,000 $HUNCH on signup |
-| Make transaction | Approve popup, pay gas, wait | Swipe and done |
-| Session management | Connect wallet each time | Automatic via session keys |
+| Action | Traditional Crypto | Polymarket (web) | Hunch |
+|--------|-------------------|------------------|-------|
+| Create account | Install wallet extension, write seed phrase | Email or wallet login | Tap "Sign in with X" |
+| Fund account | Buy crypto on exchange, transfer to wallet | Deposit USDC | Send USDC from any chain |
+| Make a trade | Approve popup, pay gas, wait | Set price and size on an order book | Swipe and done |
+| Session management | Connect wallet each time | Stay logged in | Automatic via session keys |

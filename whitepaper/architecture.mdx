@@ -1,76 +1,124 @@
 ---
 title: "Platform Architecture"
-description: "Technical overview of Hunch's hybrid blockchain architecture"
+description: "Technical overview of Hunch's venue-agnostic architecture"
 ---
 
 # Platform Architecture
 
-Hunch employs a hybrid architecture that combines blockchain's trust guarantees with traditional infrastructure's performance characteristics.
+Hunch is built in three layers. The **experience layer** is what users touch. The **routing layer** turns a swipe into an order on the right venue. The **venue layer** is where markets live, trades fill and outcomes resolve — Polymarket today, more venues over time.
+
+## Three Layers
+
+| Layer | What it does | Technology |
+| --- | --- | --- |
+| **Experience** | Swipe feed, social graph, points, leaderboards, portfolio | React Native app, Hunch API |
+| **Routing** | One adapter per venue; picks the venue for each market and user; signs and relays orders; tracks positions | Hunch API + worker (TypeScript) |
+| **Venues** | Order books, liquidity, settlement, resolution | Polymarket (live), Kalshi (planned), Hunch Native (planned) |
+
+## Venues
+
+| Venue | Status | What it is | How Hunch earns | Settles on |
+| --- | --- | --- | --- | --- |
+| **Polymarket** | Live at launch | Builder Program — Hunch orders fill on Polymarket's order book | 1% builder fee on taker volume | Polygon, pUSD |
+| **Kalshi** | Planned | Kalshi Builder Codes — regulated, US-listed event contracts | Up to 30% fee share plus Hunch fee | Kalshi (USD) or Solana via DFlow |
+| **Hunch Native** | Planned | User- and creator-made markets on Hunch's own contracts | Platform fee, shared with creators | Robinhood Chain |
+
+Details of each venue are on the [Venues & Settlement](/whitepaper/venues) page. The routing layer treats every venue identically — catalogue, prices, account, quote, order, positions, resolution — so adding a venue is a new adapter, not a new app.
 
 ## System Components
 
-| Layer | Technology | Purpose |
+| Component | Technology | Purpose |
 | --- | --- | --- |
-| Blockchain | Base (Coinbase L2) | Settlement, token transfers, bet execution |
-| Smart Contracts | Solidity / EVM | Token logic, betting pools, payouts |
-| Wallets | Privy \+ ZeroDev | Authentication, smart accounts, session keys |
-| Backend | Node.js on Railway | API, market sync, settlement automation |
-| Database | Supabase (PostgreSQL) | User data, market cache, analytics |
-| Frontend | React Native | iOS, Android, and web from single codebase |
-| Data Source | Polymarket API | Market questions, odds, resolution data |
+| Mobile app | React Native | iOS, Android and web from one codebase |
+| Authentication & keys | Privy | Social login, embedded wallet that owns the user's venue accounts |
+| Trading accounts | Polymarket Deposit Wallet + session key | Holds the user's pUSD and positions; session key trades without prompts |
+| Gas & relaying | Polymarket Relayer | Gasless wallet deployment, approvals, trades and redemptions |
+| API | TypeScript on Google Cloud Run | Auth, feed, trade routing, points, admin |
+| Worker | TypeScript on Cloud Run Jobs | Market catalogue sync, live prices, resolution, points accrual |
+| Database | Supabase (PostgreSQL) | Users, feed state, trade mirror, points ledger |
+| Secrets | Google Secret Manager + Cloud KMS | Builder credentials; per-user session keys encrypted at rest |
+| Market data | Polymarket Gamma, CLOB, Data API, real-time websocket | Catalogue, order books, positions, prices |
+| Future token | $HUNCH on Robinhood Chain | Rewards, fee rebates, native-market collateral, governance |
 
 ## Why This Stack
 
-### Base (Coinbase L2)
+### Polymarket Builder Program
 
 <CardGroup cols={2}>
-  <Card title="Sub-cent Fees" icon="coins">
-    Transaction fees enable micro-bets
+  <Card title="Deep Liquidity" icon="water">
+    Fills on the largest prediction-market order book instead of a thin house pool
   </Card>
-
-  <Card title="2-Second Finality" icon="clock">
-    Responsive user experience
+  <Card title="Trusted Resolution" icon="gavel">
+    Outcomes resolved by Polymarket and UMA, not by Hunch
   </Card>
-
-  <Card title="Coinbase Ecosystem" icon="building">
-    Credibility and on-ramp integration
+  <Card title="Gasless by Default" icon="gas-pump">
+    Polymarket's relayer sponsors wallet deployment, approvals and trading
   </Card>
-
-  <Card title="EVM Compatible" icon="code">
-    Proven Solidity patterns
+  <Card title="Attributed Volume" icon="tag">
+    Every order carries Hunch's builder code; fees accrue automatically
   </Card>
 </CardGroup>
 
-### Privy \+ ZeroDev
+### Privy + Polymarket Session Keys
 
 <CardGroup cols={2}>
   <Card title="Privy" icon="shield">
-    Industry-leading auth with 10M\+ users across clients
+    Social login and an embedded wallet the user controls
   </Card>
-
-  <Card title="ZeroDev" icon="key">
-    Best-in-class ERC-4337 implementation
+  <Card title="Deposit Wallet" icon="wallet">
+    Polymarket's smart wallet, deployed gaslessly for every Hunch user
   </Card>
-
-  <Card title="Combined" icon="link">
-    Social login → Smart account in one flow
+  <Card title="Session Keys" icon="key">
+    Trade-only keys authorised once; can never withdraw funds
   </Card>
+  <Card title="No Popups" icon="bolt">
+    A swipe is a single API call — nothing to sign on the phone
+  </Card>
+</CardGroup>
 
-  <Card title="Session Keys" icon="bolt">
-    Eliminate transaction popups entirely
+### Robinhood Chain
+
+<CardGroup cols={2}>
+  <Card title="Arbitrum Stack" icon="cube">
+    Ethereum L2 built with Arbitrum technology, mainnet since July 2026
+  </Card>
+  <Card title="Permissionless" icon="lock-open">
+    Open to third-party contracts and tokens
+  </Card>
+  <Card title="Mainstream Ecosystem" icon="building">
+    Home of Robinhood's tokenised assets and a growing DeFi stack
+  </Card>
+  <Card title="Future Home of $HUNCH" icon="coins">
+    Token and Hunch-native markets deploy here, not on the trading venue
   </Card>
 </CardGroup>
 
 ### React Native
 
-- Single codebase for iOS, Android, and web
+- Single codebase for iOS, Android and web
 - Near-native performance for swipe interactions
 - Large talent pool and ecosystem
 - Proven at scale (Instagram, Coinbase, Discord)
 
-<Frame>
-  ![Data Flow2](/images/DataFlow2.png)
-</Frame>
+## Data Flow
+
+<Steps>
+  <Step title="Catalogue">
+    The worker pulls open markets from each venue, categorises them and streams live prices into the database
+  </Step>
+  <Step title="Feed">
+    The API builds a personalised deck: unseen markets first, then skipped, then already-traded, filtered by category and time to close
+  </Step>
+  <Step title="Swipe">
+    The app sends one request. The API quotes the venue, signs a marketable order with the user's session key, attaches the builder code and relays it
+  </Step>
+  <Step title="Position">
+    The fill is mirrored locally, points are credited, and the user's portfolio updates from the venue's data API
+  </Step>
+  <Step title="Resolution">
+    The worker watches the venue for resolution and redeems winning positions gaslessly
+  </Step>
+</Steps>
 
 ## Scalability
 
@@ -78,9 +126,10 @@ The architecture is designed to scale to millions of users:
 
 | Component | Capability |
 | --- | --- |
-| Horizontal Scaling | Stateless API servers behind load balancer |
-| Database | Supabase handles 10,000\+ concurrent connections |
-| Blockchain | Base processes 1M\+ daily transactions |
+| API | Stateless containers, autoscaled behind a load balancer |
+| Worker | Scheduled jobs with database locks; venues polled in bulk, prices streamed |
+| Database | Supabase handles 10,000+ concurrent connections |
+| Venues | Polymarket processes billions in volume; Hunch adds load only at the edge |
 | Caching | Redis layer planned for high-frequency data |
 
 <Info>

@@ -8,9 +8,9 @@
   },
   "favicon": "/favicon.png",
   "colors": {
-  "primary": "#5B19BE",
-  "light": "#8F72E6",
-  "dark": "#3D1180"
+    "primary": "#5B19BE",
+    "light": "#8F72E6",
+    "dark": "#3D1180"
   },
   "topbarLinks": [
     {
@@ -45,7 +45,7 @@
             "group": "Technology",
             "pages": [
               "whitepaper/architecture",
-              "whitepaper/smart-contracts",
+              "whitepaper/venues",
               "whitepaper/user-experience"
             ]
           },
@@ -77,5 +77,11 @@
   "footerSocials": {
     "twitter": "https://twitter.com/GotAHunch",
     "github": "https://github.com/GOTAHUNCH"
-  }
+  },
+  "redirects": [
+    {
+      "source": "/whitepaper/smart-contracts",
+      "destination": "/whitepaper/venues"
+    }
+  ]
 }

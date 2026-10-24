@@ -5,56 +5,59 @@ description: "Hunch at a glance - key highlights for investors"
 
 # Executive Summary
 
-Hunch is a mobile-first prediction market application that transforms complex betting mechanics into an intuitive, TikTok-style swipe interface. Built on Base (Coinbase L2), Hunch enables users to bet on real-world events by simply swiping YES or NO on prediction cards.
+Hunch is a mobile-first prediction market app that turns forecasting into a TikTok-style swipe. Users swipe YES or NO on prediction cards. Behind each card, Hunch routes a real order onto an established prediction-market venue — **Polymarket at launch** — and earns a fee on every trade it brings.
+
+Hunch does not run the markets its users trade at launch and never takes the other side of a prediction. It is the distribution, social and rewards layer on top of venues that already have the liquidity, resolution and regulatory posture — with Hunch-native markets to follow.
 
 ## Key Highlights
 
 <CardGroup cols={2}>
-  <Card title="Working Prototype" icon="check">
-    Live at prototype.gotahunch.net
+  <Card title="Built on Polymarket" icon="handshake">
+    Official Builder Program partner — orders fill on Polymarket's order book
   </Card>
-  <Card title="Contracts Deployed" icon="file-contract">
-    Smart contracts operational on Base
+  <Card title="Zero-Popup Trading" icon="bolt">
+    Polymarket session keys: trade with a swipe, no signature prompts
   </Card>
   <Card title="30-Second Onboarding" icon="stopwatch">
-    No seed phrases or wallet setup
+    Social login, no seed phrases, no wallet setup
   </Card>
   <Card title="Gasless Transactions" icon="gas-pump">
-    Platform sponsors all fees
+    Wallet deployment, approvals and trades relayed without gas
   </Card>
 </CardGroup>
 
-## Traction
+## Where We Are
 
 | Milestone | Status |
 |-----------|--------|
-| Working prototype (v0.26) | ✅ Live |
-| Smart contracts on Base Sepolia | ✅ Deployed |
-| Privy + ZeroDev integration | ✅ Operational |
-| Polymarket data sync | ✅ Running |
-| Mobile app (React Native) | ✅ Ready for beta |
+| Prototype (v0.26) with house-run markets on Base Sepolia | Shipped, now retired |
+| Privy social login + embedded wallets | Live |
+| Polymarket market data pipeline | Live |
+| Pivot to Polymarket Builder Program | Decided |
+| Venue-agnostic backend rebuild | In development |
+| Points programme for the $HUNCH airdrop | In development |
+| Mobile app (React Native) | Adapting to new API |
+| Kalshi and Hunch-native markets | Planned |
 
 ## Market Opportunity
 
 The global prediction market opportunity exceeds **$50 billion annually**, yet existing platforms remain inaccessible to mainstream users. Hunch addresses three critical barriers:
 
-1. **Complexity** of traditional interfaces
-2. **Friction** in wallet management
-3. **Regulatory uncertainty** through crypto-global distribution
+1. **Complexity** of traditional trading interfaces
+2. **Friction** in wallet management and funding
+3. **Fragmentation** across venues and jurisdictions — one app, the right venue for each user
 
-## Technology Validation
-
-The prototype validates three critical technical hypotheses:
+## What the Prototype Taught Us
 
 <Steps>
-  <Step title="Account Abstraction">
-    Eliminates wallet friction for mainstream users
+  <Step title="The swipe works">
+    Users engaged with prediction cards like a social feed, not a trading terminal
   </Step>
-  <Step title="Base L2">
-    Provides sufficient throughput at acceptable cost
+  <Step title="Invisible wallets work">
+    Social login to a funded, ready-to-trade account with no crypto knowledge required
   </Step>
-  <Step title="Swipe Interface">
-    Achieves engagement comparable to social apps
+  <Step title="Venues do markets better">
+    Liquidity, resolution and compliance are solved by Polymarket and Kalshi. Hunch focuses on the experience on top
   </Step>
 </Steps>
 
