@@ -1,21 +1,22 @@
 ---
 title: "Tokenomics"
-description: "$HUNCH token allocation, utility, and emission schedule"
+description: "$HUNCH token allocation, utility, and the points programme that precedes it"
 ---
 
 # Tokenomics
 
 ## Token Overview
 
-\$HUNCH is the native utility token powering the Hunch ecosystem. It serves as the primary medium for predictions, rewards, and governance.
+\$HUNCH is the native token of the Hunch ecosystem. Trading on venues happens in their own collateral (pUSD on Polymarket); \$HUNCH is the rewards, rebate and governance layer on top, and the collateral for Hunch-native markets.
 
 | Property | Value |
 | --- | --- |
 | **Token Name** | Hunch Token |
 | **Symbol** | \$HUNCH |
 | **Total Supply** | 1,000,000,000 (1 billion) |
-| **Blockchain** | Base (Coinbase L2) |
+| **Blockchain** | Robinhood Chain (Arbitrum-stack Ethereum L2) |
 | **Standard** | ERC-20 |
+| **Launch** | After public launch; preceded by the points programme below |
 
 ## Token Allocation
 
@@ -34,28 +35,23 @@ description: "$HUNCH token allocation, utility, and emission schedule"
 ## Token Utility
 
 <CardGroup cols={2}>
-  <Card title="Betting Currency" icon="coins">
-    Primary token for placing predictions on all markets
+  <Card title="Fee Rebates" icon="percent">
+    Stakers pay a reduced Hunch fee on every venue
   </Card>
-
-  <Card title="Swipe Mining" icon="pickaxe">
-    Earn \$HUNCH for platform engagement and accurate predictions
+  <Card title="Rewards" icon="gift">
+    Points convert to \$HUNCH at TGE; ongoing rewards for volume, streaks and referrals
   </Card>
-
-  <Card title="Fee Reduction" icon="percent">
-    Token holders receive reduced platform spreads
-  </Card>
-
   <Card title="Market Creation" icon="plus-circle">
-    Stake \$HUNCH to create and curate user markets
+    Stake \$HUNCH to open and resolve Hunch-native markets
   </Card>
-
+  <Card title="Native Collateral" icon="coins">
+    Trade Hunch-native markets in \$HUNCH
+  </Card>
   <Card title="Governance" icon="landmark">
-    Vote on platform parameters, market categories, and treasury
+    Vote on fee parameters, categories, native-market rules and treasury
   </Card>
-
   <Card title="Staking Rewards" icon="chart-line">
-    Earn yield by staking to support platform liquidity
+    Earn yield by staking to back native-market liquidity and resolution bonds
   </Card>
 </CardGroup>
 
@@ -86,18 +82,22 @@ Token emissions are designed to incentivize early adoption while ensuring long-t
   **Total Raise: ~\$3.1M** across all investor rounds.
 </Info>
 
-## Swipe Mining
+## Points Programme
 
-Users earn \$HUNCH regardless of bet outcomes through engagement:
+Before TGE, users earn **Hunch Points**. Points are the basis of the Community & Airdrop allocation and convert to \$HUNCH at launch.
 
-| Action | Reward |
+Every point traces to a real, verifiable action. Trading points are computed from fills attributed to Hunch on-chain — not from anything a client can report.
+
+| Action | Points |
 | --- | --- |
-| Daily login | 10 \$HUNCH |
-| Place a bet | 5 \$HUNCH |
-| Win a bet | 100 \$HUNCH bonus |
-| Refer a friend | 1,000 \$HUNCH |
-| Create a market | 50 \$HUNCH |
+| Trade volume | Points per dollar of filled volume |
+| Winning positions | Bonus on redeemed wins, scaled by how long the odds were |
+| Daily activity | Streak bonus on days with at least one trade, capped |
+| Referrals | Share of a referred user's volume points once they start trading |
+| Profile | One-off bonuses for linking X and Farcaster |
+
+Tiers are based on cumulative volume and days active — not trade count — so they cannot be farmed with micro-trades. Points are an append-only ledger, snapshotted with a Merkle root for the airdrop.
 
 <Note>
-  Swipe mining rewards come from the Ecosystem & Rewards allocation and decrease over time to maintain sustainability.
+  Points weights are tuned during beta and published before the airdrop snapshot. Points carry no monetary value until TGE.
 </Note>

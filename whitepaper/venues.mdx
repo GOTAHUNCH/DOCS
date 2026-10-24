@@ -1,0 +1,130 @@
+---
+title: "Venues & Settlement"
+description: "Where Hunch trades fill, settle and resolve - and where Hunch's own contracts fit"
+---
+
+# Venues & Settlement
+
+Hunch connects to prediction-market venues through a common adapter: catalogue, prices, account, quote, order, positions, resolution and redemption. Each venue below plugs into that adapter. Users see one feed; the routing layer decides where each card trades.
+
+| Venue | Status | Markets | Collateral | Resolution |
+|-------|--------|---------|------------|------------|
+| **Polymarket** | Live at launch | Polymarket's full catalogue | pUSD on Polygon | Polymarket / UMA |
+| **Kalshi** | Planned | CFTC-regulated event contracts | USD, or USDC on Solana | Kalshi |
+| **Hunch Native** | Planned | User, creator and community markets | $HUNCH / stablecoin | Hunch resolution framework |
+
+## Polymarket
+
+Hunch is a participant in the **Polymarket Builder Program**. A Hunch user's swipe becomes a real order on Polymarket's central limit order book, carrying Hunch's builder code.
+
+### How a trade works
+
+<Steps>
+  <Step title="Account">
+    On sign-up, Hunch deploys a Polymarket Deposit Wallet for the user through Polymarket's relayer. The user's Privy embedded wallet is its owner.
+  </Step>
+  <Step title="Session key">
+    The user authorises a trade-only session key once. It can place orders for 180 days and can never move funds out.
+  </Step>
+  <Step title="Order">
+    A swipe sends one request to Hunch. Hunch quotes the order book, signs a marketable order with the session key, attaches its builder code and submits it to Polymarket.
+  </Step>
+  <Step title="Fill">
+    Polymarket matches the order on-chain on Polygon and pays the gas. Volume and fees are attributed to Hunch.
+  </Step>
+  <Step title="Resolution">
+    Polymarket resolves the market (via UMA's optimistic oracle). Hunch redeems winning positions for the user, gaslessly.
+  </Step>
+</Steps>
+
+### Economics
+
+| Item | Value |
+|------|-------|
+| Hunch builder fee | **1% of taker volume** (Polymarket's maximum) |
+| Maker fee | 0% — swipe trades always take liquidity |
+| Polymarket platform fee | Paid by the user to Polymarket, separate from Hunch's fee |
+| Fee settlement | Accrues on-chain per fill, paid to Hunch's builder wallet |
+
+### Why Polymarket first
+
+<CardGroup cols={2}>
+  <Card title="Liquidity" icon="water">
+    The deepest prediction-market order book; Hunch users trade at real market prices
+  </Card>
+  <Card title="Resolution" icon="gavel">
+    Battle-tested outcome resolution Hunch does not have to operate or defend
+  </Card>
+  <Card title="Gasless" icon="gas-pump">
+    Relayer covers wallet deployment, approvals, trading and redemption
+  </Card>
+  <Card title="Non-Custodial" icon="key">
+    The user's embedded wallet owns the account; Hunch's session key cannot withdraw
+  </Card>
+</CardGroup>
+
+## Kalshi
+
+<Note>
+**Status: Planned.** Kalshi is a CFTC-regulated exchange, which makes it the route to US users that Polymarket cannot serve.
+</Note>
+
+Kalshi runs its own builder programme — **Kalshi Builder Codes** — under which third-party apps route orders and earn up to 30% of the fees their users generate, plus any fee the app charges on top. Two integration routes exist:
+
+| Route | How it works | Trade-offs |
+|-------|--------------|------------|
+| **Kalshi API** | Users hold a Kalshi account; Hunch routes orders directly | Per-user KYC, USD rails, full regulatory cover |
+| **DFlow (Solana)** | Kalshi markets tokenised on Solana; positions held as SPL tokens | Crypto-native funding, no Kalshi account, settles in stablecoins |
+
+The route will be chosen when the integration is scheduled. Either way it becomes one more adapter: Kalshi markets appear in the same feed, with jurisdiction routing deciding which users see them.
+
+## Hunch Native Markets
+
+<Note>
+**Status: Planned.** Hunch's own contracts return here — for markets no venue lists — on **Robinhood Chain**, alongside the $HUNCH token.
+</Note>
+
+Venues cover the big questions. Hunch-native markets cover everything else: a creator's call on their own niche, a community's question, a friend group's wager on the weekend.
+
+| Market type | Created by | Resolution | Stake |
+|-------------|-----------|------------|-------|
+| Personal | Any user | Creator resolves; counterparty confirms | Small, friends only |
+| Community | Communities and groups | Community vote with dispute window | $HUNCH bond from creator |
+| Creator | Verified creators and KOLs | Creator resolves; Hunch adjudicates disputes | $HUNCH bond, fee share to creator |
+
+### Contract design
+
+The prototype's contracts (a mintable $HUNCH token and a pooled-bet manager on Base Sepolia) are retired. The native-market contracts will be designed around what the prototype taught us:
+
+<CardGroup cols={2}>
+  <Card title="OpenZeppelin" icon="shield-check">
+    Audited base contracts for token and access control
+  </Card>
+  <Card title="Bonded Resolution" icon="scale-balanced">
+    Creators stake $HUNCH to open markets; bonds are slashed for bad resolutions
+  </Card>
+  <Card title="Dispute Window" icon="clock">
+    Every resolution can be challenged before payout
+  </Card>
+  <Card title="Non-Custodial" icon="key">
+    Positions held by the user's own wallet; no admin settlement key
+  </Card>
+  <Card title="Fee Caps" icon="percent">
+    Platform fee hard-capped on-chain
+  </Card>
+  <Card title="Upgradeable" icon="arrows-rotate">
+    Proxy pattern for fixes without migration
+  </Card>
+</CardGroup>
+
+### Deployment plan
+
+| Milestone | Timing |
+|-----------|--------|
+| Native-market contract design | 2027 |
+| Third-party audit before any mainnet deployment | 2027 |
+| Deployment on Robinhood Chain with limited beta | 2027 |
+
+<Info>
+Hunch deploys no contracts of its own at launch. Everything on-chain in v1 is Polymarket's — audited, live and processing billions in volume.
+</Info>

@@ -5,139 +5,115 @@ description: "Development milestones from prototype to global scale"
 
 # Roadmap
 
-## Overview
+Status vocabulary used throughout: **Live** (shipped and in use), **In development** (being built now), **Planned** (committed, not started), **Retired** (shipped in the prototype, replaced).
 
-<Frame>
-  <img src="/images/roadmap.png" alt="Hunch Roadmap" />
-</Frame>
+## Phase 1: Foundation (2025 - Q3 2026)
 
-## Phase 1: Foundation (Q1-Q2 2026)
+**Status: Complete**
 
-**Status: In Progress** ✅
-
-<CardGroup cols={2}>
-  <Card title="Smart Contracts" icon="file-contract">
-    Core contract deployment and security audit
-  </Card>
-  <Card title="Mobile App" icon="mobile">
-    React Native app for iOS & Android
-  </Card>
-  <Card title="Backend Infrastructure" icon="server">
-    API and Polymarket integration
-  </Card>
-  <Card title="Wallet Infrastructure" icon="wallet">
-    Privy + ZeroDev integration
-  </Card>
-</CardGroup>
-
-### Milestones
+The prototype proved the swipe interface and invisible-wallet onboarding, and showed that running our own markets is the wrong place to spend effort.
 
 | Milestone | Status |
 |-----------|--------|
-| Prototype live (v0.26) | ✅ Complete |
-| Contracts on Base Sepolia | ✅ Complete |
-| Privy authentication | ✅ Complete |
-| ZeroDev smart accounts | ✅ Complete |
-| Polymarket data sync | ✅ Complete |
-| Session keys for gasless betting | ✅ Complete |
-| Security audit | 🔄 In Progress |
-| Mainnet deployment | ⏳ Planned |
+| Prototype live (v0.26) | Live, retired |
+| Privy authentication and embedded wallets | Live |
+| Polymarket market data sync | Live |
+| House-run markets and $HUNCH test token on Base Sepolia | Retired |
+| ZeroDev smart accounts and session keys | Retired — replaced by Polymarket Deposit Wallets and session keys |
+| Decision: build on the Polymarket Builder Program | Complete |
 
-## Phase 2: Launch (Q3-Q4 2026)
+## Phase 2: Rebuild & Launch (Q4 2026 - Q2 2027)
 
-**Focus: Public launch and initial growth**
+**Focus: Real trading on Polymarket, points programme, public launch**
 
 <CardGroup cols={2}>
-  <Card title="Public Launch" icon="rocket">
-    Airdrop campaign and TGE
+  <Card title="Venue-Agnostic Backend" icon="server">
+    New API and worker with a Polymarket adapter; security and auth from day one
   </Card>
-  <Card title="Web App" icon="globe">
-    React Native Web deployment
+  <Card title="Polymarket Builder Integration" icon="handshake">
+    Deposit Wallets, session keys, gasless trading, builder attribution
   </Card>
-  <Card title="Social Features" icon="users">
-    Profiles, following, leaderboards
+  <Card title="Points Programme" icon="star">
+    Volume-verified points ledger feeding the $HUNCH airdrop
   </Card>
-  <Card title="KOL Partnerships" icon="handshake">
-    Influencer activation program
+  <Card title="Mobile App v2" icon="mobile">
+    React Native app on the new API; web via React Native Web
   </Card>
 </CardGroup>
 
-### Milestones
+| Milestone | Target | Status |
+|-----------|--------|--------|
+| Polymarket Builder Program — Verified tier | Q4 2026 | In development |
+| Backend and admin rebuild | Q4 2026 | In development |
+| Closed beta (1,000 users, real trading) | Q1 2027 | Planned |
+| Public launch and points programme live | Q2 2027 | Planned |
+| Social features: profiles, following, leaderboards | Q2 2027 | Planned |
+| KOL partnerships activate | Q2 2027 | Planned |
 
-| Milestone | Target |
-|-----------|--------|
-| Closed beta (1,000 users) | Q2 2026 |
-| Public launch | Q3 2026 |
-| Token Generation Event (TGE) | Q3 2026 |
-| Swipe mining activation | Q3 2026 |
-| 50K monthly active users | Q4 2026 |
+## Phase 3: Expansion (H2 2027 - 2028)
 
-## Phase 3: Growth (2027)
-
-**Focus: Feature expansion and scale**
+**Focus: More venues, Hunch-native markets, token**
 
 <CardGroup cols={2}>
-  <Card title="User-Created Markets" icon="plus-circle">
-    Enable community market creation
+  <Card title="Kalshi" icon="building-columns">
+    Regulated markets via Kalshi Builder Codes; opens the US
   </Card>
-  <Card title="Live Betting" icon="bolt">
-    In-play markets for live events
+  <Card title="Hunch-Native Markets" icon="plus-circle">
+    User, creator and community markets on Robinhood Chain
+  </Card>
+  <Card title="$HUNCH TGE" icon="coins">
+    Token launch on Robinhood Chain; points convert to the airdrop
   </Card>
   <Card title="Fiat On-Ramp" icon="credit-card">
-    Credit cards and local payment methods
-  </Card>
-  <Card title="Advanced Social" icon="users-gear">
-    Challenges, groups, competitions
+    Cards and local payment methods straight into trading balance
   </Card>
 </CardGroup>
 
-### Milestones
-
 | Milestone | Target |
 |-----------|--------|
-| User-created markets launch | Q1 2027 |
-| Fiat on-ramp integration | Q1 2027 |
-| Live/in-play betting | Q2 2027 |
-| 500K monthly active users | Q2 2027 |
-| Staking mechanism | Q3 2027 |
-| DAO governance launch | Q4 2027 |
+| 50K monthly active users | Q3 2027 |
+| Fiat on-ramp integration | Q3 2027 |
+| Kalshi integration | H2 2027 |
+| Native-market contracts audited and deployed | H2 2027 |
+| Token Generation Event and airdrop | H2 2027 |
+| Live / in-play markets | 2028 |
+| Staking and fee rebates | 2028 |
+| DAO governance launch | 2028 |
 
 ## Phase 4: Scale (2028+)
 
 **Focus: Global expansion and ecosystem**
 
 <CardGroup cols={2}>
-  <Card title="Multi-Chain" icon="link">
-    Expansion beyond Base
+  <Card title="More Venues" icon="link">
+    Additional prediction-market and sports venues behind the same adapter
   </Card>
   <Card title="API Platform" icon="code">
-    Third-party integrations
+    Third-party integrations on Hunch's feed and social graph
   </Card>
   <Card title="Enterprise" icon="building">
     B2B solutions and white-label
   </Card>
   <Card title="Advanced Markets" icon="chart-line">
-    Derivatives and complex market types
+    Combos, parlays and complex market types
   </Card>
 </CardGroup>
 
-### Milestones
-
 | Milestone | Target |
 |-----------|--------|
-| Multi-chain deployment | Q1 2028 |
-| API platform launch | Q2 2028 |
-| 2M monthly active users | Q2 2028 |
-| Enterprise solutions | Q3 2028 |
-| Global regulatory licenses | Q4 2028+ |
+| 500K monthly active users | 2028 |
+| API platform launch | 2028 |
+| 2M monthly active users | 2029 |
+| Enterprise solutions | 2029 |
+| Global regulatory licenses | 2029+ |
 
 ## Success Metrics
 
 | Phase | Key Metric | Target |
 |-------|------------|--------|
-| Foundation | Working prototype | ✅ Achieved |
-| Launch | Monthly active users | 50K |
-| Growth | Monthly betting volume | $10M |
+| Foundation | Working prototype | Achieved |
+| Rebuild & Launch | Monthly active users | 50K |
+| Expansion | Monthly trading volume | $10M |
 | Scale | Annual revenue | $10M+ |
 
 <Note>
