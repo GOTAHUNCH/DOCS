@@ -14,13 +14,13 @@
   },
   "topbarLinks": [
     {
-      "name": "Prototype",
-      "url": "https://prototype.gotahunch.net"
+      "name": "Website",
+      "url": "https://www.gotahunch.net"
     }
   ],
   "topbarCtaButton": {
     "name": "Launch App",
-    "url": "https://prototype.gotahunch.net"
+    "url": "https://www.gotahunch.net"
   },
   "navigation": {
     "tabs": [
@@ -75,8 +75,8 @@
     ]
   },
   "footerSocials": {
-    "twitter": "https://twitter.com/GotAHunch",
-    "github": "https://github.com/GOTAHUNCH"
+    "github": "https://github.com/GOTAHUNCH",
+    "x": "https://x.com/gotahunch_app"
   },
   "redirects": [
     {
